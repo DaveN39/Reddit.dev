@@ -17,6 +17,6 @@
     <div class="container">
         @foreach($numbers as $number)
             <p>{{ $number }}</p>
-        @endoreach
+        @endforeach
     </div>
 @stop

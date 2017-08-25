@@ -1,13 +1,16 @@
 <?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
-abstract class Controller extends BaseController
-{
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+class ParentClass {
+    public function sayHello() {
+        return 'Hello from the parent class!';
+    }
 }
+
+class Child extends ParentClass {
+    public function sayHello () {
+        return parent::sayHello() . ' And the child class!';
+    }
+}
+
+$child = new Child();
+
+var_dump($child->sayHello());

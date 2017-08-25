@@ -1,8 +1,7 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| `Application Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register all of the routes for an application.
@@ -10,28 +9,20 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/uppercase/{string}', function($string) {
-	$data['string'] = strtoupper($string);
-	return view('uppercase', $data);
-});
-
-Route::get('/increment/{number}', function($number) {
-	if(is_numeric($number)) {
-		return $number + 1;
-	} else {
-		return 1;
-	}
-});
-
-Route::get('/add/{a}/{b}', function($a, $b)  {
-	if(is_numeric($a) && is_numeric($b)) {
-		return $a = $b;
-	}
-});
+Route::get('/', 'HomeController@showWelcome');
+Route::get('/uppercase/{word}', 'HomeController@uppercase');
+Route::get('/lowercase/{word}', 'HomeController@lowercase');
+Route::get('/increment/{number}', 'HomeController@increment');
+// Rotue w/ required parameters
+Route::get('/add/{num1}/{num2}', 'HomeController@add');
+// Optional parameter w/ default value
+// Route::get('/sayhello/{name}', 'HomeController@showWelcome');
+Route::get('/rolldice/{guess}', 'HomeController@rolldice');
+Route::get('/sample/{str}', 'SampleController@firstLetter');
+Route::get('/process/{num}', 'SampleController@processNum');
+Route::get('/double/{num}', 'SampleController@doubleNum');
+Route::get('/triple/{num}', 'SampleController@tripleNum');
+Route::get('zero', 'HomeController@resetToZero');
+Route::resource('posts', 'PostsController');
 
  
