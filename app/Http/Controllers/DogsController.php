@@ -1,13 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-class PostsController extends Controller
+class DogsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +12,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return "Showing all posts...";
+        return "Showing all dog records";
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -26,9 +21,8 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return "Showing form to create posts...";
+        return view('dogs.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -37,9 +31,20 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // returns all inputs and values as an associative array
+        var_dump($request->all());
+        // get the value a specific input
+        var_dump($request->breed);
+        // check if an input exists
+        var_dump($request->has('color'));  
+        $dogFormInputs = $request->all();
+        foreach($dogFormInputs as $dogFormInput) {
+            if (empty($dogFormInput)) {
+                return back()->withInput();
+            }
+        } 
+        dd($request);
     }
-
     /**
      * Display the specified resource.
      *
@@ -48,9 +53,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return "Showing an individual post...";
+        //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -59,10 +63,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        return "Showing form to update an individual post...";
-
+        //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -74,7 +76,6 @@ class PostsController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
