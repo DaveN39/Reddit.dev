@@ -16,7 +16,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return "Showing all posts...";
+        $posts = \App\Models\Post::all();
+        $data['posts'] = $posts;
+        return view('posts.index', $data);
     }
 
     /**
@@ -26,7 +28,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return "Showing form to create posts...";
+        return view('posts.create');
     }
 
     /**
@@ -37,7 +39,15 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        // return (back)->withInput();
+        $post = new \App\Models\Post();
+        $post->title = $request->title;
+        $post->url = $request->url;
+        $post->content = $request->content;
+        $post->created_by = 1;
+        $post->save();
+        return \Redirect::action('PostsController@index');
     }
 
     /**
@@ -48,7 +58,9 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return "Showing an individual post...";
+        $post = App\Models\Post::find($id);
+        $data['post'] = $post;
+        return view('posts.show', $data);
     }
 
     /**
@@ -59,7 +71,10 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        return "Showing form to update an individual post...";
+        $post = \App\Models\Post::find($id);
+        $data['post'] = $post;
+        // return "Showing form to update an individual post...";
+        return view('posts edit', $data);
 
     }
 
@@ -72,7 +87,13 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = \App\Models\Post::find($id);
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->url = $request->url;
+        $post->created_by = 1;
+        $post->save();
+        return \Redirect::action('PostsController@show', $post->id);
     }
 
     /**
@@ -81,8 +102,10 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $post = \App\Models\Post::find($id);
+        $post->delete();
+        return \Redirect::action('PostsController@index')
     }
 }
