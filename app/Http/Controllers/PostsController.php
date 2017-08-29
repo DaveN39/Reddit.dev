@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
+use Log;
 
 class PostsController extends Controller
 {
@@ -16,9 +17,15 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = \App\Models\Post::all();
+        // $posts = \App\Models\Post::all();
+        // $data['posts'] = $posts;
+        // return view('posts.index', $data);
+        $posts = Post::paginate(4);
         $data['posts'] = $posts;
+        Log::info('A user just visited the index page.');
         return view('posts.index', $data);
+    }
+
     }
 
     /**
@@ -41,12 +48,16 @@ class PostsController extends Controller
     {
         // dd($request->all());
         // return (back)->withInput();
-        $post = new \App\Models\Post();
+        // $post = new \App\Models\Post();
+        $this->validate($request, Post::$rules);
+        $post = new Post();
         $post->title = $request->title;
         $post->url = $request->url;
         $post->content = $request->content;
         $post->created_by = 1;
         $post->save();
+        $request->session()->flash("successMessage", "Your post was saved successfully");
+
         return \Redirect::action('PostsController@index');
     }
 
